@@ -1,3 +1,6 @@
+/**
+ * Communicating between clients
+ */
 var net = require('net');
 
 var chatServer = net.createServer(),

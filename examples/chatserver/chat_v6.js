@@ -1,5 +1,5 @@
 /**
- * Improving the sending of messages
+ * Checking the write status of sockets
  */
 var net = require('net');
 
@@ -15,13 +15,28 @@ chatServer.on('connection', function (client) {
     client.on('data', function (data) {
         broadcast(data, client);
     });
+
+    client.on('end', function () {
+        clientList.splice(clientList.indexOf(client), 1);
+    });
 });
 
 function broadcast(message, client) {
+    var cleanup = [];
     for (var i = 0; i < clientList.length; i++) {
         if (client != clientList[i]) {
-            clientList[i].write(client.name + ' says ' + message);
+
+            if (clientList[i].writable) {
+                clientList[i].write(client.name + ' says ' + message);
+            } else {
+                cleanup.push(clientList[i]);
+                clientList[i].destroy();
+            }
         }
+    }
+
+    for (i = 0; i < cleanup.length; i++) {
+        clientList.splice(clientList.indexOf(cleanup[i]), 1);
     }
 }
 
