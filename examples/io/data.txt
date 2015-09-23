@@ -1,0 +1,16 @@
+Readable streams
+
+The readable stream API is a set of methods and events that provides access to
+chunks of data as they are sent by an underlying data source. Fundamentally,
+readable streams are about emitting data events. These events represent the
+stream of data as a stream of events. To make this manageable, streams have a
+number of features that allow you to configure how much data you get and how
+fast.
+
+The basic stream in Example 4-16 simply reads data from a file in chunks. Every
+time a new chunk is made available, it is exposed to a callback in the variable
+called data. In this example, we simply log the data to the console. However,
+in real use cases, you might either stream the data somewhere else or spool it
+into bigger pieces before you work on it. In essence, the data event simply
+provides access to the data, and you have to figure out what to do with each
+chunk.
